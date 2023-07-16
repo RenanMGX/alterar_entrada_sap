@@ -20,21 +20,45 @@ def alterar_arquivo_xml(caminho):
             # Alterar os atributos da tag <Service>
             service.set('name', 'S4P')
             service.set('server', 'PUBLIC')
+            service.set('routerid', 'eabc24a7-cbff-4eb8-8bda-dde7e92ec187')
             #remove os atributos
             service.attrib.pop('mode', None)
             service.attrib.pop('sncop', None)
-            service.attrib.pop('routerid', None)
+            # service.attrib.pop('routerid', None)
             #adiciona novos atributos
             service.set('msid', 'bf19a9e2-f820-4ab6-b47d-9efd33fef09c')
             service.set('sncname', 'p:CN=S4P, OU=SAP-HEC, O=SAP SE, C=DE')
 
-            # Adicionar a nova tag <Messageservers>
+        if service.get('server') == 'PUBLIC':
+            service.set('routerid', 'eabc24a7-cbff-4eb8-8bda-dde7e92ec187')
+            #service.set('name', 'S4P')
+
+    # Adicionar a nova tag <Messageservers>
+    achou_messageserver = False
+    for service in root.iter('Messageserver'):
+        if service.get('uuid') == 'bf19a9e2-f820-4ab6-b47d-9efd33fef09c':
+            achou_messageserver = True
+    if achou_messageserver == False:
             messageservers = ET.SubElement(root, 'Messageservers')
             messageserver = ET.SubElement(messageservers, 'Messageserver')
             messageserver.set('uuid', 'bf19a9e2-f820-4ab6-b47d-9efd33fef09c')
             messageserver.set('name', 'S4P')
             messageserver.set('host', 'vhpats4pci.sap.patrimar.com.br')
             messageserver.set('port', '3601')
+
+    # Adicionar a nova tag <Routers>
+    achou_route = False
+    for service in root.iter('Router'):
+        if service.get('uuid') == 'eabc24a7-cbff-4eb8-8bda-dde7e92ec187':
+            achou_route = True
+    if achou_route == False:
+            routers = ET.SubElement(root, 'Routers')
+            router = ET.SubElement(routers, 'Router')
+            router.set('uuid', 'eabc24a7-cbff-4eb8-8bda-dde7e92ec187')
+            router.set('name', '/H/saprouter.patrimar.com.br/W/patrimarsap2018')
+            router.set('description', '/H/saprouter.patrimar.com.br/W/patrimarsap2018')
+            router.set('router', '/H/saprouter.patrimar.com.br/W/patrimarsap2018')
+
     # Salvar as alterações no arquivo XML
     tree.write(caminho)
 
