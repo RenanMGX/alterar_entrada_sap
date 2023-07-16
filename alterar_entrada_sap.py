@@ -28,7 +28,16 @@ try:
             with open(filepath, "r") as f:
                 data = f.read()
             # procurar e substituir
-            servidor = [["SERVER030", "vhpats4dci.sap.patrimar.com.br"],["SERVER033", "vhpats4dci.sap.patrimar.com.br"],["SERVER032","vhpats4dci.sap.patrimar.com.br"]]
+            servidor = [["SERVER030", "vhpats4dci.sap.patrimar.com.br"],
+                        ["Server030", "vhpats4dci.sap.patrimar.com.br"],
+                        ["server030", "vhpats4dci.sap.patrimar.com.br"],
+                        ["SERVER033", "vhpats4pci.sap.patrimar.com.br"],
+                        ["Server033", "vhpats4pci.sap.patrimar.com.br"],
+                        ["server033", "vhpats4pci.sap.patrimar.com.br"],
+                        ["SERVER032", "vhpats4qci.sap.patrimar.com.br"],
+                        ["Server032", "vhpats4qci.sap.patrimar.com.br"],
+                        ["server032", "vhpats4qci.sap.patrimar.com.br"],
+                        ]
             for serv in servidor:
                 data = re.sub(f'server="{serv[0]}:3200"', f'server="{serv[1]}:3200"', data)
             # abrir arquivo novamente para escrever
@@ -42,7 +51,7 @@ try:
         messagebox.showinfo("Concluído", "Entrada SAP alterada com sucesso!")
 
 # Chame a função ao final do seu script
-    # popup_completed()
+    popup_completed()
 except:
     messagebox.showerror("Erro", "Ocorreu um erro durante a execução do script.")
 
